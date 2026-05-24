@@ -1,4 +1,4 @@
-# 🚀 High School C++ & APCS Coding Journey
+# 🚀 Dual-Engine Coding Journey: C++ & Python Lab
 
 ### 🧑‍💻 關於我
 - **學校 / 年級：** 高中一年級
