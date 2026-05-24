@@ -26,7 +26,7 @@
 
 | 題號 / 題目名稱 | 核心觀念 | 程式碼連結 | 解題反思 / 關鍵點 |
 | :--- | :--- | :--- | :--- |
-| **a001. 哈囉** | 語法｜基礎輸入輸出 | [C++](./01_Basic_Syntax/a001.cpp) / [Python](./01_Basic_Syntax/a001.py) | 成功打通 VS Code 環境，並導入 `sync_with_stdio(false)` 與 `cin.tie(NULL)` 提升 C++ I/O 效率。 |
+| **a001. 哈囉** | 語法｜基礎輸入輸出 | [C++](./01_Basic_Syntax/a001.cpp) | 成功打通 VS Code 環境，並導入 `sync_with_stdio(false)` 與 `cin.tie(NULL)` 提升 C++ I/O 效率。 |
 
 <br>
 
