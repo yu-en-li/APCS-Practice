@@ -26,7 +26,7 @@
 
 | 題號 | 題目名稱 | 困難度 | 關鍵知識點 | 狀態 | 實作紀錄 | 題目 | 筆記 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| a010 | 質因數分解 | 🟡 進階 | `迴圈優化` | ✅ | 💻 [C++] | [ZJ](https://zerojudge.tw/ShowProblem?problemid=a010) | [Notion](連結) |
+| a010 | 質因數分解 | 🟡 進階 | `迴圈優化` | ✅ | 💻 [C++](https://github.com/yu-en-li/APCS-Practice/blob/main/01_Basic_Syntax/a010.cpp) | [ZJ](https://zerojudge.tw/ShowProblem?problemid=a010) | [Notion](連結) |
 | b002 | 簡易運算 | 🟢 基礎 | `條件判斷` | ✅ | 🐍 [Py] | [ZJ](連結) | [Notion](連結) |
 
 <br>
