@@ -18,13 +18,12 @@
 ---
 
 ## 🏗️ 知識體系結構 (Directory Architecture)
-採用「由淺入深」的系統化管理，每個模組皆包含核心觀念文件 `README.md`。
+本專案採用分類管理，點擊連結可直接導航至對應資料夾。
 
-- 📂 **`01_Basic_Syntax`** — I/O 優化與基礎程式邏輯。
-- 📂 **`02_Data_Structures`** — STL 容器應用、陣列與字串處理。
-- 📂 **`03_Algorithms`** — 排序、搜尋、貪婪法 (Greedy)。
-- 📂 **`04_Advanced_Topics`** — 遞迴與圖論 (DFS/BFS)。
-- 📂 **`05_Math_Theory`** — 數論、質數篩法與位元運算。
+- 📂 [**`01_Basic_Syntax`**](./01_Basic_Syntax/) — 輸入輸出、條件判斷、迴圈、自訂函式。
+- 📂 [**`02_Data_Structures`**](./02_Data_Structures/) — 陣列、Vector、字串、結構體、Stack/Queue。
+- 📂 [**`03_Basic_Algorithms`**](./03_Basic_Algorithms/) — 排序、二分搜尋、貪婪法、暴力枚舉、雙指標、數論。
+- 📂 [**`04_Advanced_Topics`**](./04_Advanced_Topics/) — 遞迴、DFS/BFS、動態規劃 (DP)、圖論與樹。
 
 
 ---
@@ -51,10 +50,9 @@
 3. **錯誤偵測**：利用 Debugger 工具分析記憶體與變數狀態。
 4. **回顧與總結**：將解題思路歸納於 Notion，確保同類問題不再踩坑。
 
----
-
-> *"Code is a way to express your logic clearly."* — 保持規律，持續迭代。
 
 ---
 ## 📄 授權 (License)
-本專案內容僅供學習交流使用，遵循 [MIT License](LICENSE) 規範。
+本專案內容僅供學習交流使用，遵循 [MIT License](https://opensource.org/licenses/MIT) 規範。
+
+> *"Code is a way to express your logic clearly."* — 保持規律，持續迭代。
