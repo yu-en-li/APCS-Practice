@@ -51,11 +51,8 @@
 
 <br>
 
-## 📝 實作挑戰彙整 (Coding Challenges)
+## 📝 實作挑戰 (Coding Challenges)
 
-<br>
-
-*本分類共計 4 個核心練習模組，涵蓋基礎語法關鍵技術。*
 
 <br>
 
