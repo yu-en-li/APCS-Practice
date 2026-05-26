@@ -1,6 +1,6 @@
 # 🚀 APCS-Practice: 演算法實作與知識庫
 
-![GitHub contributions](https://img.shields.io/github/commits-since/YOUR_GITHUB_USER/APCS-Practice/latest?style=flat-square&color=2ea44f)
+![GitHub contributions](https://github-readme-stats.vercel.app/api?username=yu-en-li&show_icons=true&theme=radical)
 ![Language](https://img.shields.io/badge/Language-C++17/20-blue?style=flat-square&logo=cplusplus)
 
 這是一個以 **APCS 實作題** 為導向的系統性開發專案，旨在透過結構化的代碼與筆記，建立紮實的計算思維與解決問題的能力。
@@ -14,7 +14,7 @@
 ## 📊 專案戰情室 (Quick Access)
 | 資源 | 連結 |
 | :--- | :--- |
-| **刷題總表 (Notion)** | [查看詳細進度與解題筆記]([https://www.notion.so/your-link-here](https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link)) |
+| **刷題總表 (Notion)** | [查看詳細進度與解題筆記]([https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link]) |
 | **環境規範** | [C++ 競賽環境與編譯標準設定](./docs/ENV_CONFIG.md) |
 
 ---
@@ -35,7 +35,7 @@
 
 | 年份/來源 | 題目名稱 | 複雜度 (Complexity) | 核心關鍵與優化點 |
 | :--- | :--- | :--- | :--- |
-| APCS 2023 | 基地台 | $O(N \log R)$ | 二分搜尋法與貪婪策略驗證 |
+|  |  |  |  |
 
 ---
 
