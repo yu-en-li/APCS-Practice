@@ -26,6 +26,8 @@
 | :--- | :--- |
 | **刷題總表 (Notion)** | [點擊查看我的刷題進度與筆記](https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d) |
 
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=yu-en-li&layout=compact&theme=radical)
+
 <br>
 
 ---
