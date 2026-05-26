@@ -1,6 +1,6 @@
 # 🚀 APCS-Practice: 演算法實作與知識庫
 
-![GitHub contributions](https://github-readme-stats.vercel.app/api?username=yu-en-li&show_icons=true&theme=radical)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=yu-en-li&show_icons=true&theme=radical&count_private=true&include_all_commits=true)
 ![Language](https://img.shields.io/badge/Language-C++17/20-blue?style=flat-square&logo=cplusplus)
 
 這是一個以 **APCS 實作題** 為導向的系統性開發專案，旨在透過結構化的代碼與筆記，建立紮實的計算思維與解決問題的能力。
