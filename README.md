@@ -1,6 +1,6 @@
 # 🚀 Dual-Engine Coding Journey: C++ & Python Lab
 
-工作面板：[![Notion](https://img.shields.io/badge/Notion-WorkSpace-000000?style=flat-square&logo=notion&logoColor=white)](#) *(可自行替換成你的 Notion 分享連結)*
+工作面板：[![Notion]([https://img.shields.io/badge/Notion-WorkSpace-000000?style=flat-square&logo=notion&logoColor=white](https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link))](#) 
 APCS 目標：`觀念 3+ 級分` / `實作 3+ 級分` 🎯
 
 ---
