@@ -12,9 +12,14 @@
 
 ## 📚 學習重點 (Key Concepts)
 
+<br>
+
 - **[01_IO_Optimization](./01_IO_Optimization/)**：熟悉 `cin`/`cout` 與 `scanf`/`printf` 的效能差異，掌握 I/O 加速技巧。
+<br>
 - **[02_Conditionals](./02_Conditionals/)**：`if-else` 與 `switch` 的邏輯判斷精確度。
+<br>
 - **[03_Loops](./03_Loops/)**：`for`、`while` 迴圈的邊界條件 (Boundary Conditions) 處理。
+<br>
 - **[04_Functions](./04_Functions/)**：函式的參數傳遞與變數生命週期 (Scope)。
 
 <br>
