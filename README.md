@@ -1,8 +1,5 @@
 # 🚀 APCS-Practice: 演算法實作與知識庫
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=yu-en-li&show_icons=true&theme=radical&count_private=true&include_all_commits=true)
-![Language](https://img.shields.io/badge/Language-C++17/20-blue?style=flat-square&logo=cplusplus)
-
 這是一個以 **APCS 實作題** 為導向的系統性開發專案，旨在透過結構化的代碼與筆記，建立紮實的計算思維與解決問題的能力。
 
 ---
@@ -11,11 +8,10 @@
 - **APCS 檢定目標**：觀念 3+ 級分 / 實作 3+ 級分。
 - **學術與職業願景**：為申請資工領域奠定基礎，養成符合業界標準的 Git 開發流程與技術文檔撰寫習慣。
 
-## 📊 專案戰情室 (Quick Access)
+## 📊 開發紀錄儀表板 (Development Dashboard)
 | 資源 | 連結 |
 | :--- | :--- |
-| **刷題總表 (Notion)** | [查看詳細進度與解題筆記]([https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link]) |
-| **環境規範** | [C++ 競賽環境與編譯標準設定](./docs/ENV_CONFIG.md) |
+| **刷題總表 (Notion)** | [點擊查看我的刷題進度與筆記](https://www.notion.so/36a43be958cd80528db4df429506892f?v=36a43be958cd8075b3ac000c2c628f5d) |
 
 ---
 
