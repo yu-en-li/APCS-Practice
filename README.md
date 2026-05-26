@@ -54,5 +54,6 @@
 ---
 ## 📄 授權 (License)
 本專案內容僅供學習交流使用，遵循 [MIT License](https://opensource.org/licenses/MIT) 規範。
+---
 
 > *"Code is a way to express your logic clearly."* — 保持規律，持續迭代。
