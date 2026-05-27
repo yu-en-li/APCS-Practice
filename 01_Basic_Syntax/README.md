@@ -58,8 +58,8 @@
 
 | 分類 | 題目名稱 | 核心觀念 | 難度 | 複雜度 | 狀態 | 連結 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Loop** | a034_二進位制轉換 | `#Loops` | ⭐ | $O(\log n)$ | ✅ | [詳情](01_Basic_Syntax/03_Loops/a034_Binary_Conversion_String.cpp) |
-| **Cond** | a244_新手訓練~等差數列 | `#Cond` `#IO` | ⭐ | $O(N)$ | ✅ | [詳情](01_Basic_Syntax/03_Loops/a244_for_if_practice.cpp) |
+| **Loop** | a034_二進位制轉換 | `#Loops` | ⭐ | $O(\log n)$ | ✅ | [詳情](./03_Loops/a034_Binary_Conversion_String.cpp) |
+| **Cond** | a244_新手訓練~等差數列 | `#Cond` `#IO` | ⭐ | $O(N)$ | ✅ | [詳情](./03_Loops/a244_for_if_practice.cpp) |
 
 
 
