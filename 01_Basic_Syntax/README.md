@@ -62,6 +62,7 @@
 | **Cond** | 條件判斷邏輯 | `#Logic` | ⭐⭐ | $O(1)$ | ✅ | [詳情](./02_Conditionals/) |
 | **Loop** | 迴圈邊界處理 | `#Iter` | ⭐⭐ | $O(n)$ | 📝 | [詳情](./03_Loops/) |
 | **Func** | 函式參數傳遞 | `#Scope` | ⭐⭐⭐ | $O(1)$ | 📝 | [詳情](./04_Functions/) |
+| Loop | a034. 二進位制轉換 | #Loop | ⭐ | ✅ | [詳情](./03_Loops/a034_Binary_Conversion.cpp) |
 
 
 
