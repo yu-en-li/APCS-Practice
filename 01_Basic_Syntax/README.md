@@ -59,7 +59,7 @@
 | 分類 | 題目名稱 | 核心觀念 | 難度 | 複雜度 | 狀態 | 連結 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Loop** | a034_二進位制轉換 | `#Loops` | ⭐ | $O(\log n)$ | ✅ | [C++](./03_Loops/a034_Binary_Conversion_String.cpp) |
-| **Cond** | a244_新手訓練~等差數列 | `#Cond` `#IO` | ⭐ | $O(N)$ | ✅ | [C++](./02_Conditionals/a244_for_if_practice.cpp) [Py](./02_Conditionals/a244_for_if_practice.py) |
+| **Cond** | a244_新手訓練~等差數列 | `#Cond` `#IO` | ⭐ | $O(N)$ | ✅ | [C++](./02_Conditionals/a244_for_if_practice.cpp)  [Py](./02_Conditionals/a244_for_if_practice.py) |
 
 
 
