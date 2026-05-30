@@ -45,6 +45,16 @@ L1_START, L1_END = "<!-- L1_START -->", "<!-- L1_END -->"
 L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 
 
+for file in os.listdir("."):
+    # 排除包含 'tempCodeRunner' 的暫存檔
+    if "tempCodeRunner" in file:
+        continue
+
+    # 或者是只允許特定的副檔名，並排除特定檔名
+    if file.endswith(".py") and file != "tempCodeRunnerFile.py":
+        # 你的 README 寫入邏輯
+        pass
+
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
 
