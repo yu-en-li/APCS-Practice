@@ -55,7 +55,7 @@ def update_l2_topic(path, sub_name):
         else []
     )
 
-    # 整理資料：{ 題目名稱: { "links": [], "title": "...", "complexity": "...", "tag": "...", "diff": "..." } }
+    # 整理資料：{ 題目名稱: { "links": [], "title": "...", "complexity": "...", "tag": "...", "diff": "...", "notion": "..." } }
     data = {}
     for f in sorted(files):
         name = os.path.splitext(f)[0]
@@ -67,6 +67,7 @@ def update_l2_topic(path, sub_name):
         complexity = "未標記"
         tag = "`未標記`"
         difficulty = "未標記"
+        notion_url = "請在此處貼上連結"  # 預設的 Notion 連結
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
@@ -85,7 +86,7 @@ def update_l2_topic(path, sub_name):
                         val = comp_match.group(1).strip()
                         complexity = f"${val}$" if not val.startswith("$") else val
 
-                    # 3. 抓取核心觀念（精準包覆程式碼方塊标签）
+                    # 3. 抓取核心觀念（精準包覆程式碼方塊標籤）
                     tag_match = re.search(r"(?://|#)\s*APCS Tag:\s*(.*)", line)
                     if tag_match:
                         raw_tag = tag_match.group(1).strip()
@@ -101,6 +102,12 @@ def update_l2_topic(path, sub_name):
                         star_count = max(1, min(5, star_count))  # 限制在 1~5 星
                         stars = ["★"] * star_count + ["☆"] * (5 - star_count)
                         difficulty = " ".join(stars)
+
+                    # 5. ✨ 新增：抓取 Notion 詳細筆記連結 ✨
+                    notion_match = re.search(r"(?://|#)\s*APCS Note:\s*(https?://[^\s]+)", line)
+                    if notion_match:
+                        notion_url = notion_match.group(1).strip()
+
         except Exception as e:
             print(f"無法讀取 {f} 的標籤資料: {e}")
         # -------------------------------------------
@@ -115,6 +122,7 @@ def update_l2_topic(path, sub_name):
                 "complexity": complexity,
                 "tag": tag,
                 "difficulty": difficulty,
+                "notion": notion_url,
             }
 
         data[name]["links"].append(link)
@@ -128,6 +136,8 @@ def update_l2_topic(path, sub_name):
             data[name]["tag"] = tag
         if difficulty != "未標記":
             data[name]["difficulty"] = difficulty
+        if notion_url != "請在此處貼上連結":
+            data[name]["notion"] = notion_url
 
     # 完美對齊的 7 欄位大表頭
     table = [
@@ -139,14 +149,14 @@ def update_l2_topic(path, sub_name):
         link_str = " ".join(info["links"])
         status_icon = "✅ 已過關" if len(info["links"]) > 0 else "⏳ 挑戰中"
 
+        # 這裡會自動帶入 info["notion"] 提取出來的網址
         table.append(
             f"| **{info['title']}** | {link_str} | {info['complexity']} | "
-            f"[📝 Notion](請在此處貼上連結) | {info['difficulty']} | {info['tag']} | {status_icon} |"
+            f"[📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_icon} |"
         )
 
     table_content = "\n".join(table)
 
-    # 精準地讀取、切開、置換，絕對不破壞表格外的任何手寫筆記
     # 精準地讀取、置換，絕對不破壞表格外的任何手寫筆記
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
@@ -154,7 +164,7 @@ def update_l2_topic(path, sub_name):
     # 檢查兩個標籤是否都存在
     if L2_START in content and L2_END in content:
         import re
-        # 使用正則表達式，(?s) 代表讓 . 可以匹配換行符號，精準替換兩個標籤中間的內容
+        # 使用正則表達式，精準替換兩個標籤中間的內容
         pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
         replacement = f"{L2_START}\n{table_content}\n{L2_END}"
         new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
@@ -165,7 +175,6 @@ def update_l2_topic(path, sub_name):
                 f.write(new_content)
     else:
         print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過，保護你的筆記！")
-
 
 def update_l1_chapter(path, cat_name):
     readme_path = os.path.join(path, "README.md")
