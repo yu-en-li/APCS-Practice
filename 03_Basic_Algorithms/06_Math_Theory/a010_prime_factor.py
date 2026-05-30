@@ -1,3 +1,8 @@
+# APCS Title: a010. 因數分解
+# APCS Complexity: O(sqrt(N))
+# APCS Tag: 數學與數論, 重複迴圈, 質因數分解
+# APCS Difficulty: 2
+
 import sys
 
 

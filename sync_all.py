@@ -147,14 +147,24 @@ def update_l2_topic(path, sub_name):
     table_content = "\n".join(table)
 
     # 精準地讀取、切開、置換，絕對不破壞表格外的任何手寫筆記
+    # 精準地讀取、置換，絕對不破壞表格外的任何手寫筆記
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
+
+    # 檢查兩個標籤是否都存在
     if L2_START in content and L2_END in content:
-        parts = content.split(L2_START)
-        after_tag = parts[1].split(L2_END)[1]
-        new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{after_tag}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
+        import re
+        # 使用正則表達式，(?s) 代表讓 . 可以匹配換行符號，精準替換兩個標籤中間的內容
+        pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
+        replacement = f"{L2_START}\n{table_content}\n{L2_END}"
+        new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+        
+        # 只有當內容真的有變動時才寫入檔案，減少硬碟讀寫
+        if new_content != content:
+            with open(readme_path, "w", encoding="utf-8") as f:
+                f.write(new_content)
+    else:
+        print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過，保護你的筆記！")
 
 
 def update_l1_chapter(path, cat_name):
