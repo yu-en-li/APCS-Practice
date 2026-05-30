@@ -47,10 +47,13 @@ L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
-    if not os.path.exists(readme_path):
-        return
 
-    files = [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
+    # 找出該目錄下所有的 C++ 和 Python 檔案
+    files = (
+        [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
+        if os.path.exists(path)
+        else []
+    )
 
     # 整理資料：{ 題目名稱: { "links": [], "title": "...", "complexity": "...", "tag": "...", "diff": "..." } }
     data = {}
@@ -59,11 +62,11 @@ def update_l2_topic(path, sub_name):
         ext = os.path.splitext(f)[1].lower()
         file_path = os.path.join(path, f)
 
-        # --- 🚀 核心升級：自動解析多個 APCS 欄位 ---
+        # --- 🚀 核心功能：自動解析多個 APCS 欄位 ---
         prob_title = name  # 預設用檔名
         complexity = "未標記"
         tag = "未標記"
-        difficulty = "0"  # 預設 0 顆星
+        difficulty = "未標記"
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
@@ -87,14 +90,12 @@ def update_l2_topic(path, sub_name):
                     if tag_match:
                         tag = tag_match.group(1).strip()
 
-                    # 4. 抓取難度並轉換
-                    # 4. 抓取難度並轉換成完美對齊的黑白星
+                    # 4. 抓取難度並轉換成完美對齊的黑白星 (★☆☆☆☆)
                     diff_match = re.search(r"(?://|#)\s*APCS Difficulty:\s*(\d+)", line)
                     if diff_match:
                         star_count = int(diff_match.group(1).strip())
-                        # 限制在 1~5 顆星之間，多或少都會被修正
-                        star_count = max(1, min(5, star_count))
-                        difficulty = " ".join("★" * star_count + "☆" * (5 - star_count))
+                        star_count = max(1, min(5, star_count))  # 限制在 1~5 星
+                        difficulty = "★" * star_count + "☆" * (5 - star_count)
         except Exception as e:
             print(f"無法讀取 {f} 的標籤資料: {e}")
         # -------------------------------------------
@@ -120,10 +121,10 @@ def update_l2_topic(path, sub_name):
             data[name]["complexity"] = complexity
         if tag != "未標記":
             data[name]["tag"] = tag
-        if difficulty != "0" and difficulty != "未標記":
+        if difficulty != "未標記":
             data[name]["difficulty"] = difficulty
 
-    # 完美對齊你要求的欄位：題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態
+    # 建立精美的 7 欄位大表頭
     table = [
         "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
         "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
@@ -131,8 +132,6 @@ def update_l2_topic(path, sub_name):
 
     for name, info in data.items():
         link_str = " ".join(info["links"])
-
-        # 狀態欄（自動判定）：如果同時寫了 C++ 和 Python，或者只要有寫就亮綠燈
         status_icon = "✅ 已過關" if len(info["links"]) > 0 else "⏳ 挑戰中"
 
         table.append(
@@ -142,126 +141,30 @@ def update_l2_topic(path, sub_name):
 
     table_content = "\n".join(table)
 
-    with open(readme_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    if L2_START in content:
+    # --- 🛡️ 鋼鐵防禦寫入邏輯：如果 README 壞掉或沒有標籤，直接自動重蓋一棟新大樓 ---
+    if os.path.exists(readme_path):
+        with open(readme_path, "r", encoding="utf-8") as f:
+            content = f.read()
+    else:
+        content = ""
+
+    if L2_START in content and L2_END in content:
+        # 標籤健全，精準切開並置換表格
         parts = content.split(L2_START)
         after_tag = parts[1].split(L2_END)[1]
         new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{after_tag}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
-    readme_path = os.path.join(path, "README.md")
-    if not os.path.exists(readme_path):
-        return
-
-    files = [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
-
-    # 整理資料：{ 題目名稱: { "links": [連結1], "complexity": "未標記" } }
-    data = {}
-    for f in sorted(files):
-        name = os.path.splitext(f)[0]
-        ext = os.path.splitext(f)[1].lower()
-        file_path = os.path.join(path, f)
-
-        # --- 🚀 新增：自動解析程式碼內的複雜度註解 ---
-        complexity = "未標記"
-        try:
-            with open(file_path, "r", encoding="utf-8") as file_obj:
-                # 唯讀取前 15 行，避免大型檔案浪費時間
-                head = [file_obj.readline() for _ in range(15)]
-                for line in head:
-                    # 支援 C++ 的 // 和 Python 的 # 註解格式
-                    import re
-
-                    comp_match = re.search(r"(?://|#)\s*APCS Complexity:\s*(.*)", line)
-                    if comp_match:
-                        complexity = comp_match.group(1).strip()
-                        # 自動幫你加上 Markdown 的數學符號包圍，讓 GitHub 渲染更漂亮
-                        if not complexity.startswith("$"):
-                            complexity = f"${complexity}$"
-        except Exception as e:
-            print(f"無法讀取 {f} 的複雜度: {e}")
-        # -------------------------------------------
-
-        # 決定顯示名稱：.cpp -> C++, .py -> Py
-        display_name = "C++" if ext == ".cpp" else "Py"
-        link = f"[{display_name}](./{f})"
-
-        if name not in data:
-            data[name] = {"links": [], "complexity": complexity}
-
-        data[name]["links"].append(link)
-        # 如果其中一個檔案（例如 C++ 版）有寫複雜度，就蓋掉預設值
-        if complexity != "未標記":
-            data[name]["complexity"] = complexity
-
-    # 修改表格標頭，加入「時間複雜度」欄位
-    table = [
-        "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
-        "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
-    ]
-
-    for name, info in data.items():
-        link_str = " ".join(info["links"])
-        comp_str = info["complexity"]
-        # 將複雜度填入第三個欄位，後續維持你原本的 Notion 欄位
-        table.append(
-            f"| **{name}** | {link_str} | {comp_str} | [📝 Notion](請在此處貼上連結) | | | |"
+    else:
+        # 標籤不健全或完全沒檔案，自動初始化整份 README
+        new_content = (
+            f"# {sub_name} 題庫練習\n\n"
+            f"這裡是我練習 {sub_name} 題目的地方。\n\n"
+            f"## 📝 題目索引 (Problem Index)\n"
+            f"{L2_START}\n{table_content}\n{L2_END}\n\n"
+            f"## 🧠 學習筆記\n"
         )
 
-    table_content = "\n".join(table)
-
-    with open(readme_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    if L2_START in content:
-        parts = content.split(L2_START)
-        after_tag = parts[1].split(L2_END)[1]
-        new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{after_tag}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
-    readme_path = os.path.join(path, "README.md")
-    if not os.path.exists(readme_path):
-        return
-
-    files = [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
-
-    # 整理資料：{ 題目名稱: [連結1, 連結2] }
-    data = {}
-    for f in sorted(files):
-        name = os.path.splitext(f)[0]
-        ext = os.path.splitext(f)[1].lower()
-
-        # 決定顯示名稱：.cpp -> C++, .py -> Py
-        display_name = "C++" if ext == ".cpp" else "Py"
-        link = f"[{display_name}](./{f})"
-
-        if name not in data:
-            data[name] = []
-        data[name].append(link)
-
-    # 修改表格標頭，加入「詳細筆記」欄位
-    table = [
-        "| 題目名稱 | 程式連結 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
-        "| :--- | :--- | :---: | :---: | :--- | :---: |",
-    ]
-
-    for name, links in data.items():
-        link_str = " ".join(links)
-        # 這裡預留了 Notion 連結的欄位 (第三個欄位)
-        # 你之後可以在這欄手動貼上你的 Notion 連結
-        table.append(f"| **{name}** | {link_str} | [📝 Notion](請在此處貼上連結) | | | |")
-
-    table_content = "\n".join(table)
-
-    with open(readme_path, "r", encoding="utf-8") as f:
-        content = f.read()
-    if L2_START in content:
-        parts = content.split(L2_START)
-        # 確保保留標籤後的內容（例如您手動填寫過的表格資料）
-        after_tag = parts[1].split(L2_END)[1]
-        new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{after_tag}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(new_content)
 
 
 def update_l1_chapter(path, cat_name):
