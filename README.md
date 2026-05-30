@@ -42,62 +42,6 @@
 | [02_Data_Structures](./02_Data_Structures/) | 0/25 | 0% |
 | [03_Basic_Algorithms](./03_Basic_Algorithms/) | 3/35 | 8% |
 | [04_Advanced_Topics](./04_Advanced_Topics/) | 0/25 | 0% |
-
 <!-- ROOT_END -->
 
-> ⚠️ **自動化同步提示**：上方表格由雲端腳本自動根據資料夾內的原始碼數量進行即時統計，請勿手動修改 `<!-- ROOT_START -->` 與 `<!-- ROOT_END -->` 標籤內的內容。
-
-
-<br>
-
----
-
-<br>
-
-## 🏆 重點解題里程碑 (Core Milestones)
-*這裡收錄最具代表性的挑戰題目，涵蓋演算法優化與複雜度分析。*
-
-| 年份/來源 | 題目名稱 | 複雜度 (Complexity) | 核心關鍵與優化點 |
-| :--- | :--- | :--- | :--- |
-| - | - | - | - |
-
-<br>
-
----
-
-<br>
-
-## ⚙️ 開發標準 (Coding Standard)
-為了確保專案質量，本倉庫嚴格遵守：
-- **Conventional Commits**：紀錄每一次的實作更新（如 `feat: add prime factor logic`）。
-- **Performance Optimization**：使用標準 `ios_base::sync_with_stdio(0)` 加速 I/O。
-
-<br>
-
----
-
-<br>
-
-## 🧠 學習哲學 (Learning Philosophy)
-當遇到無法解決的難題時，我會遵循以下 SOP：
-1. **問題拆解**：將複雜問題分解為基礎子問題。
-2. **手動模擬**：使用紙筆模擬演算法流程。
-3. **錯誤偵測**：利用 Debugger 工具分析記憶體與變數狀態。
-4. **回顧與總結**：將解題思路歸納於 Notion，確保同類問題不再踩坑。
-
-<br>
-
----
-
-<br>
-
-## 📄 授權 (License)
-本專案內容僅供學習交流使用，遵循 [MIT License](https://opensource.org/licenses/MIT) 規範。
-
-<br>
-
----
-
-<br>
-
-> *"Code is a way to express your logic clearly."* — 保持規律，持續迭代。
+> ⚠️ **自動化同步提示**：上方表格由雲端腳本自動根據資料夾內的原始碼數量進行即時統計，請勿手動修改 `
