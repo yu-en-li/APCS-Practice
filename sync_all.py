@@ -47,10 +47,13 @@ L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
-    if not os.path.exists(readme_path):
-        return
 
-    files = [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
+    # 找出該目錄下所有的 C++ 和 Python 檔案
+    files = (
+        [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
+        if os.path.exists(path)
+        else []
+    )
 
     # 整理資料：{ 題目名稱: { "links": [], "title": "...", "complexity": "...", "tag": "...", "diff": "..." } }
     data = {}
@@ -59,7 +62,7 @@ def update_l2_topic(path, sub_name):
         ext = os.path.splitext(f)[1].lower()
         file_path = os.path.join(path, f)
 
-        # --- 🚀 核心升級：自動解析多個 APCS 欄位 ---
+        # --- 🚀 核心功能：自動解析多個 APCS 欄位 ---
         prob_title = name  # 預設用檔名
         complexity = "未標記"
         tag = "`未標記`"
