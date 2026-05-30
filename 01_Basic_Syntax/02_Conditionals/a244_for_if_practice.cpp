@@ -1,3 +1,8 @@
+// APCS Title: a244. 完全奇數
+// APCS Complexity: O(1)
+// APCS Tag: 條件判斷, 數學與數論, 基礎語法
+// APCS Difficulty: 1
+
 #include <algorithm>
 #include <iostream>
 #include <string>
