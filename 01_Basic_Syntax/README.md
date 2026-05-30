@@ -1,74 +1,34 @@
-<br>
-
 # 01_Basic_Syntax: 基礎語法與 I/O 優化
 
 本資料夾紀錄學習基礎語法與輸入輸出優化的過程，這是所有演算法邏輯的根基。
 
-<br>
+## 📚 學習模組 (Learning Modules)
+點擊下方連結可導航至各子主題的詳細解題列表：
+
+- 📂 [**01_IO_Optimization**](./01_IO_Optimization/) — I/O 加速技巧與效能差異。
+- 📂 [**02_Conditionals**](./02_Conditionals/) — `if-else` 與 `switch` 邏輯判斷。
+- 📂 [**03_Loops**](./03_Loops/) — `for`、`while` 迴圈與邊界處理。
+- 📂 [**04_Functions**](./04_Functions/) — 函式傳遞與變數生命週期。
 
 ---
-
-<br>
-
-## 📚 學習重點 (Key Concepts)
-
-<br>
-
-- **[01_IO_Optimization](./01_IO_Optimization/)**：熟悉 `cin`/`cout` 與 `scanf`/`printf` 的效能差異，掌握 I/O 加速技巧。
-  
-<br>
-
-- **[02_Conditionals](./02_Conditionals/)**：`if-else` 與 `switch` 的邏輯判斷精確度。
-  
-<br>
-
-- **[03_Loops](./03_Loops/)**：`for`、`while` 迴圈的邊界條件 (Boundary Conditions) 處理。
-
-<br>
-
-- **[04_Functions](./04_Functions/)**：函式的參數傳遞與變數生命週期 (Scope)。
-
-<br>
-
----
-
-<br>
 
 ## 💡 關鍵筆記 (Key Takeaways)
 
-<br>
-
 > *「基礎不紮實，複雜演算法往往會在邊界條件上出錯。」*
-
-<br>
 
 1. **I/O 加速**：在 C++ 中，務必使用 `ios_base::sync_with_stdio(0); cin.tie(0);` 來避免超時。
 2. **邊界處理**：迴圈的判斷式應特別注意是否會造成「無限迴圈」或「少跑一次」的問題。
 
-<br>
-
 ---
 
-<br>
-
-## 📝 實作挑戰 (Coding Challenges)
-
-
-<br>
-
-| 分類 | 題目名稱 | 核心觀念 | 難度 | 複雜度 | 狀態 | 連結 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Loop** | a034_二進位制轉換 | `#Loops` | ⭐ | $O(\log n)$ | ✅ | [C++](./03_Loops/a034_Binary_Conversion_String.cpp) |
-| **Cond** | a244_新手訓練~等差數列 | `#Cond` `#IO` | ⭐ | $O(N)$ | ✅ | [C++](./02_Conditionals/a244_for_if_practice.cpp)  [Py](./02_Conditionals/a244_for_if_practice.py) |
-
-
-
-<br>
-
+## 🏗️ 學習進度概覽
+<!-- L1_START -->
+| 子主題 | 進度 | 完成率 | 狀態 |
+| :--- | :---: | :---: | :--- |
+| [01_IO_Optimization](./01_IO_Optimization/) | 1/50 | 2% | 🔥 |
+| [02_Conditionals](./02_Conditionals/) | 2/5 | 40% | 🔥 |
+| [03_Loops](./03_Loops/) | 2/5 | 40% | 🔥 |
+| [04_Functions](./04_Functions/) | 0/5 | 0% | 🔥 |
+<!-- L1_END -->
 ---
-
-<br>
-
 *Back to [Main Repository](../README.md)*
-
-<br>

@@ -4,8 +4,8 @@ import datetime
 # 設定路徑與錨點
 BASE_DIR = os.getcwd()
 README_PATH = os.path.join(BASE_DIR, "README.md")
-START_TAG = "<!-- PROGRESS_START -->"
-END_TAG = "<!-- PROGRESS_END -->"
+START_TAG = "<!-- ROOT_START -->"
+END_TAG = "<!-- ROOT_END -->"
 
 CATEGORIES = {
     "01": {"name": "01_Basic_Syntax", "total": 15},
