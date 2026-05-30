@@ -24,7 +24,7 @@
 <!-- L2_START -->
 | 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :---: |
-| **a010_prime_factor** | [C++](./a010_prime_factor.cpp) [Py](./a010_prime_factor.py) | 未標記 | [📝 Notion](請在此處貼上連結) | 未標記 | `未標記` | ✅ 已過關 |
+| **a010. 因數分解** | [C++](./a010_prime_factor.cpp) [Py](./a010_prime_factor.py) | $O(sqrt(N))$ | [📝 Notion](請在此處貼上連結) | ★ ★ ☆ ☆ ☆ | `數學與數論` `重複迴圈` `質因數分解` | ✅ 已過關 |
 | **tempCodeRunnerFile** | [Py](./tempCodeRunnerFile.py) | 未標記 | [📝 Notion](請在此處貼上連結) | 未標記 | `未標記` | ✅ 已過關 |
 <!-- L2_END -->
 
