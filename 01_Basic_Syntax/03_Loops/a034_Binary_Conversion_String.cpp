@@ -1,3 +1,7 @@
+// APCS Title: a034. 二進位制轉換
+// APCS Complexity: O(log N)
+// APCS Tag: 基礎輸入輸出, 重複迴圈, 數學與數論
+// APCS Difficulty: 1
 #include <algorithm>
 #include <iostream>
 #include <string>

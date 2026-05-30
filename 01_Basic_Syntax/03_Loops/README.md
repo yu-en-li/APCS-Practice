@@ -25,7 +25,7 @@
 <!-- L2_START -->
 | 題目名稱 | 程式連結 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
 | :--- | :--- | :---: | :---: | :--- | :---: |
-| **a034_Binary_Conversion_String** | [C++](./a034_Binary_Conversion_String.cpp) | [📝 Notion](請在此處貼上連結) | | | |
+| **a034_Binary_Conversion_String** | [C++](./a034_Binary_Conversion_String.cpp) | [📝 Notion](https://www.notion.so/a034-36a43be958cd80a49057f8b8925ed00d?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ⭐ | `#IO` `#Loop` `#String` | ✅ |
 <!-- L2_END -->
 
 <br>
