@@ -38,7 +38,7 @@
 <!-- ROOT_START -->
 | 階段大分類 | 完成度 | 完成率 |
 | :--- | :---: | :---: |
-| [01_Basic_Syntax](./01_Basic_Syntax/) | 5/15 | 33% |
+| [01_Basic_Syntax](./01_Basic_Syntax/) | 4/15 | 26% |
 | [02_Data_Structures](./02_Data_Structures/) | 0/25 | 0% |
 | [03_Basic_Algorithms](./03_Basic_Algorithms/) | 3/35 | 8% |
 | [04_Advanced_Topics](./04_Advanced_Topics/) | 0/25 | 0% |
