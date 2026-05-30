@@ -36,13 +36,13 @@
 
 ## 📈 題庫進度
 <!-- PROGRESS_START -->
-| 階段大分類 | 核心主題 | 已解題數 / 目標題數 | 學習進度條 | 目前狀態 |
-| :--- | :--- | :---: | :--- | :---: |
-| 01_Basic_Syntax | I/O, if-else, for/while, function | `3 / 15` | `██░░░░░░░░ 20%` | 🔥 進行中 |
-| 02_Data_Structures | Array, Vector, String, Struct | `0 / 25` | `░░░░░░░░░░ 0%` | ⚪ 未開始 |
-| 03_Basic_Algorithms | Sort, Binary Search, Greedy, Brute Force, Two Pointers, Math | `2 / 35` | `░░░░░░░░░░ 5%` | 🔥 進行中 |
-| 04_Advanced_Topics | Recursion, Stack/Queue, DFS, BFS, DP, Graph & Tree | `0 / 25` | `░░░░░░░░░░ 0%` | ⚪ 未開始 |
-| **總計 (Total)** | **全題庫** | **5 / 100** | `░░░░░░░░░░ 5%` | **🔥 進行中** |
+| 階段大分類 | 核心主題 | 進度 (題數) | 完成率 | 目前狀態 |
+| :--- | :--- | :---: | :---: | :---: |
+| 01_Basic_Syntax | I/O, if-else, for/while, function | 3/15 | 20% | 🔥 進行中 |
+| 02_Data_Structures | Array, Vector, String, Struct | 0/25 | 0% | ⚪ 未開始 |
+| 03_Basic_Algorithms | Sort, Binary Search, Greedy, Brute Force, Two Pointers, Math | 2/35 | 5% | 🔥 進行中 |
+| 04_Advanced_Topics | Recursion, Stack/Queue, DFS, BFS, DP, Graph & Tree | 0/25 | 0% | ⚪ 未開始 |
+| **總計 (Total)** | **全題庫** | **5/100** | **5%** | **🔥 進行中** |
 <!-- PROGRESS_END -->
 
 
