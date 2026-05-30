@@ -1,4 +1,5 @@
 import os
+import re  # 👈 1. 統一搬到最頂端，乾淨又安全！
 
 # --- 設定區：直觀定義結構與目標 ---
 CONFIG = {
@@ -48,7 +49,7 @@ L2_START, L2_END = "", ""
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
 
-    # 找出該目錄下所有的 C++ 和 Python 檔案（👉 已加入排除 tempCodeRunnerFile 的邏輯）
+    # 找出該目錄下所有的 C++ 和 Python 檔案
     files = (
         [
             f for f in os.listdir(path) 
@@ -58,25 +59,23 @@ def update_l2_topic(path, sub_name):
         else []
     )
 
-    # 整理資料：{ 題目名稱: { "links": [], "title": "...", "complexity": "...", "tag": "...", "diff": "...", "notion": "..." } }
     data = {}
     for f in sorted(files):
         name = os.path.splitext(f)[0]
         ext = os.path.splitext(f)[1].lower()
         file_path = os.path.join(path, f)
 
-        # --- 🚀 核心功能：自動解析多個 APCS 欄位 ---
-        prob_title = name  # 預設用檔名
+        prob_title = name  
         complexity = "未標記"
         tag = "`未標記`"
         difficulty = "未標記"
-        notion_url = "請在此處貼上連結"  # 預設的 Notion 連結
+        notion_url = "請在此處貼上連結"  
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
                 head = [file_obj.readline() for _ in range(15)]
                 for line in head:
-                    import re
+                    # 這裡原本的 import re 已經刪除
 
                     # 1. 抓取題目名稱
                     title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", line)
@@ -89,7 +88,7 @@ def update_l2_topic(path, sub_name):
                         val = comp_match.group(1).strip()
                         complexity = f"${val}$" if not val.startswith("$") else val
 
-                    # 3. 抓取核心觀念（精準包覆程式碼方塊標籤）
+                    # 3. 抓取核心觀念
                     tag_match = re.search(r"(?://|#)\s*APCS Tag:\s*(.*)", line)
                     if tag_match:
                         raw_tag = tag_match.group(1).strip()
@@ -98,22 +97,21 @@ def update_l2_topic(path, sub_name):
                         ]
                         tag = " ".join(tags) if tags else "`未標記`"
 
-                    # 4. 抓取難度並轉換成完美對齊、帶空格的黑白星 (★ ☆ ☆ ☆ ☆)
+                    # 4. 抓取難度
                     diff_match = re.search(r"(?://|#)\s*APCS Difficulty:\s*(\d+)", line)
                     if diff_match:
                         star_count = int(diff_match.group(1).strip())
-                        star_count = max(1, min(5, star_count))  # 限制在 1~5 星
+                        star_count = max(1, min(5, star_count))  
                         stars = ["★"] * star_count + ["☆"] * (5 - star_count)
                         difficulty = " ".join(stars)
 
-                    # 5. ✨ 新增：抓取 Notion 詳細筆記連結 ✨
+                    # 5. 抓取 Notion 連結
                     notion_match = re.search(r"(?://|#)\s*APCS Note:\s*(https?://[^\s]+)", line)
                     if notion_match:
                         notion_url = notion_match.group(1).strip()
 
         except Exception as e:
             print(f"無法讀取 {f} 的標籤資料: {e}")
-        # -------------------------------------------
 
         display_name = "C++" if ext == ".cpp" else "Py"
         link = f"[{display_name}](./{f})"
@@ -130,7 +128,6 @@ def update_l2_topic(path, sub_name):
 
         data[name]["links"].append(link)
 
-        # 如果複數檔案中（同時有 .cpp 和 .py）有某一版寫了註解，就蓋掉預設值
         if prob_title != name:
             data[name]["title"] = prob_title
         if complexity != "未標記":
@@ -142,9 +139,8 @@ def update_l2_topic(path, sub_name):
         if notion_url != "請在此處貼上連結":
             data[name]["notion"] = notion_url
 
-    # 完美對齊的 7 欄位大表頭
     table = [
-        "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |", # 👈 加上雙引號了
+        "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
         "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
     ]
 
@@ -152,7 +148,6 @@ def update_l2_topic(path, sub_name):
         link_str = " ".join(info["links"])
         status_icon = "✅ 已過關" if len(info["links"]) > 0 else "⏳ 挑戰中"
 
-        # 這裡會自動帶入 info["notion"] 提取出來的網址
         table.append(
             f"| **{info['title']}** | {link_str} | {info['complexity']} | "
             f"[📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_icon} |"
@@ -160,24 +155,23 @@ def update_l2_topic(path, sub_name):
 
     table_content = "\n".join(table)
 
-    # 精準地讀取、置換，絕對不破壞表格外的任何手寫筆記
+    if not os.path.exists(readme_path):
+        return
+
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # 檢查兩個標籤是否都存在
-    if L2_START in content and L2_END in content:
-        import re
-        # 使用正則表達式，精準替換兩個標籤中間的內容
+    # 👉 確保 L2 標籤存在且不為空
+    if L2_START and L2_END and L2_START in content and L2_END in content:
         pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
         replacement = f"{L2_START}\n{table_content}\n{L2_END}"
         new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
         
-        # 只有當內容真的有變動時才寫入檔案，減少硬碟讀寫
         if new_content != content:
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
     else:
-        print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過，保護你的筆記！")
+        print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過。")
 
 
 def update_l1_chapter(path, cat_name):
@@ -187,7 +181,6 @@ def update_l1_chapter(path, cat_name):
     table = ["| 子主題 | 進度 | 完成率 | 狀態 |", "| :--- | :---: | :---: | :--- |"]
     for sub, target in CONFIG[cat_name]["subs"].items():
         sub_path = os.path.join(path, sub)
-        # 👉 已加入排除 tempCodeRunnerFile 的邏輯，避免計數灌水
         count = (
             len([
                 f for f in os.listdir(sub_path) 
@@ -204,18 +197,25 @@ def update_l1_chapter(path, cat_name):
     table_content = "\n".join(table)
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
-    if L1_START in content:
+        
+    # 👉 2. 加上防禦性判斷，確保 L1_START 不是空字串，且確實存在於內文中
+    if L1_START and L1_END and L1_START in content and L1_END in content:
         parts = content.split(L1_START)
         new_content = f"{parts[0]}{L1_START}\n{table_content}\n{L1_END}{parts[1].split(L1_END)[1]}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
+        if new_content != content:
+            with open(readme_path, "w", encoding="utf-8") as f:
+                f.write(new_content)
+    else:
+        print(f"⚠️ 警告：{readme_path} 找不到完整的 L1 標籤，已自動跳過。")
 
 
 def update_l0_root():
     readme_path = "README.md"
+    if not os.path.exists(readme_path):
+        return
+        
     table = ["| 階段大分類 | 完成度 | 完成率 |", "| :--- | :---: | :---: |"]
     for cat, info in CONFIG.items():
-        # 👉 已加入排除 tempCodeRunnerFile 的邏輯，避免總進度灌水
         count = sum(
             len(
                 [
@@ -232,11 +232,16 @@ def update_l0_root():
     table_content = "\n".join(table)
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
-    if ROOT_START in content:
+        
+    # 👉 確保 ROOT 標籤存在且不為空
+    if ROOT_START and ROOT_END and ROOT_START in content and ROOT_END in content:
         parts = content.split(ROOT_START)
         new_content = f"{parts[0]}{ROOT_START}\n{table_content}\n{ROOT_END}{parts[1].split(ROOT_END)[1]}"
-        with open(readme_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
+        if new_content != content:
+            with open(readme_path, "w", encoding="utf-8") as f:
+                f.write(new_content)
+    else:
+        print(f"⚠️ 警告：根目錄 {readme_path} 找不到完整的 ROOT 標籤，已自動跳過。")
 
 
 if __name__ == "__main__":
