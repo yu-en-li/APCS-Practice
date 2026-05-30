@@ -34,7 +34,7 @@
 
 
 
-## 📈 題庫進度
+## 📈 題庫整體進度
 <!-- ROOT_START -->
 | 階段大分類 | 完成度 | 完成率 |
 | :--- | :---: | :---: |
@@ -42,8 +42,9 @@
 | [02_Data_Structures](./02_Data_Structures/) | 0/25 | 0% |
 | [03_Basic_Algorithms](./03_Basic_Algorithms/) | 3/35 | 8% |
 | [04_Advanced_Topics](./04_Advanced_Topics/) | 0/25 | 0% |
-<!-- ROOT_END -->
 
+<!-- ROOT_END -->
+> ⚠️ **自動化同步提示**：上方表格由雲端腳本自動根據資料夾內的原始碼數量進行即時統計，請勿手動修改 `<!-- ROOT_START -->` 與 `<!-- ROOT_END -->` 標籤內的內容。
 
 
 <br>
