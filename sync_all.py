@@ -40,27 +40,20 @@ CONFIG = {
 }
 
 # --- 標籤設定 ---
-ROOT_START, ROOT_END = "<!-- ROOT_START -->", "<!-- ROOT_END -->"
-L1_START, L1_END = "<!-- L1_START -->", "<!-- L1_END -->"
-L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
+ROOT_START, ROOT_END = "", ""
+L1_START, L1_END = "", ""
+L2_START, L2_END = "", ""
 
-
-for file in os.listdir("."):
-    # 排除包含 'tempCodeRunner' 的暫存檔
-    if "tempCodeRunner" in file:
-        continue
-
-    # 或者是只允許特定的副檔名，並排除特定檔名
-    if file.endswith(".py") and file != "tempCodeRunnerFile.py":
-        # 你的 README 寫入邏輯
-        pass
 
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
 
-    # 找出該目錄下所有的 C++ 和 Python 檔案
+    # 找出該目錄下所有的 C++ 和 Python 檔案（👉 已加入排除 tempCodeRunnerFile 的邏輯）
     files = (
-        [f for f in os.listdir(path) if f.endswith((".cpp", ".py"))]
+        [
+            f for f in os.listdir(path) 
+            if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
+        ]
         if os.path.exists(path)
         else []
     )
@@ -151,7 +144,7 @@ def update_l2_topic(path, sub_name):
 
     # 完美對齊的 7 欄位大表頭
     table = [
-        "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
+        | 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
         "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
     ]
 
@@ -186,6 +179,7 @@ def update_l2_topic(path, sub_name):
     else:
         print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過，保護你的筆記！")
 
+
 def update_l1_chapter(path, cat_name):
     readme_path = os.path.join(path, "README.md")
     if not os.path.exists(readme_path):
@@ -193,8 +187,12 @@ def update_l1_chapter(path, cat_name):
     table = ["| 子主題 | 進度 | 完成率 | 狀態 |", "| :--- | :---: | :---: | :--- |"]
     for sub, target in CONFIG[cat_name]["subs"].items():
         sub_path = os.path.join(path, sub)
+        # 👉 已加入排除 tempCodeRunnerFile 的邏輯，避免計數灌水
         count = (
-            len([f for f in os.listdir(sub_path) if f.endswith((".cpp", ".py"))])
+            len([
+                f for f in os.listdir(sub_path) 
+                if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
+            ])
             if os.path.exists(sub_path)
             else 0
         )
@@ -217,12 +215,12 @@ def update_l0_root():
     readme_path = "README.md"
     table = ["| 階段大分類 | 完成度 | 完成率 |", "| :--- | :---: | :---: |"]
     for cat, info in CONFIG.items():
+        # 👉 已加入排除 tempCodeRunnerFile 的邏輯，避免總進度灌水
         count = sum(
             len(
                 [
-                    f
-                    for f in os.listdir(os.path.join(cat, sub))
-                    if f.endswith((".cpp", ".py"))
+                    f for f in os.listdir(os.path.join(cat, sub))
+                    if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
                 ]
             )
             for sub in info["subs"]
