@@ -28,16 +28,40 @@ L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
     if not os.path.exists(readme_path): return
+    
     files = [f for f in os.listdir(path) if f.endswith(('.cpp', '.py'))]
-    table = ["| 題目名稱 | 語言 | 連結 |", "| :--- | :---: | :--- |"]
+    
+    # 整理資料：{ 題目名稱: [連結1, 連結2] }
+    data = {}
     for f in sorted(files):
-        table.append(f"| {os.path.splitext(f)[0]} | {os.path.splitext(f)[1][1:].upper()} | [連結](./{f}) |")
+        name = os.path.splitext(f)[0]
+        ext = os.path.splitext(f)[1].lower()
+        
+        # 決定顯示名稱：.cpp -> C++, .py -> Py
+        display_name = "C++" if ext == ".cpp" else "Py"
+        link = f"[{display_name}](./{f})"
+        
+        if name not in data: data[name] = []
+        data[name].append(link)
+
+    # 修改表格標頭，加入「詳細筆記」欄位
+    table = ["| 題目名稱 | 程式連結 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |", 
+             "| :--- | :--- | :---: | :---: | :--- | :---: |"]
+    
+    for name, links in data.items():
+        link_str = " ".join(links)
+        # 這裡預留了 Notion 連結的欄位 (第三個欄位)
+        # 你之後可以在這欄手動貼上你的 Notion 連結
+        table.append(f"| **{name}** | {link_str} | [📝 Notion](請在此處貼上連結) | | | |")
     
     table_content = "\n".join(table)
+    
     with open(readme_path, "r", encoding="utf-8") as f: content = f.read()
     if L2_START in content:
         parts = content.split(L2_START)
-        new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{parts[1].split(L2_END)[1]}"
+        # 確保保留標籤後的內容（例如您手動填寫過的表格資料）
+        after_tag = parts[1].split(L2_END)[1]
+        new_content = f"{parts[0]}{L2_START}\n{table_content}\n{L2_END}{after_tag}"
         with open(readme_path, "w", encoding="utf-8") as f: f.write(new_content)
 
 def update_l1_chapter(path, cat_name):

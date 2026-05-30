@@ -1,1 +1,40 @@
+<br>
 
+# 06_Dynamic_Programming: 動態規劃
+
+本節學習如何透過記錄子問題結果，解決重疊子問題。
+
+<br>
+
+---
+
+<br>
+
+## 📌 學習目標 (Objectives)
+- **基礎鞏固**：釐清狀態轉移方程式 (State Transition Equation)。
+- **效率優化**：理解空間優化技巧（如滾動陣列）。
+- **邊界案例**：處理 DP 表格的初始化與 base case 設定。
+
+<br>
+
+---
+
+## 📝 題目索引 (Problem Index)
+
+<!-- L2_START -->
+| 題目名稱 | 程式連結 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
+| :--- | :--- | :---: | :---: | :--- | :---: |
+| **a010_prime_factor** | [C++](./a010_prime_factor.cpp) [Py](./a010_prime_factor.py) | [📝 Notion](請在此處貼上連結) | | | |
+| **tempCodeRunnerFile** | [Py](./tempCodeRunnerFile.py) | [📝 Notion](請在此處貼上連結) | | | |
+<!-- L2_END -->
+
+<br>
+
+---
+
+<br>
+
+## 💡 解題筆記 (Key Notes)
+- **核心重點**：DP 是「帶記憶功能的枚舉」，關鍵在於如何定義狀態。
+- **常見陷阱**：狀態轉移定義不明確，或是重複計算沒有妥善儲存。
+- **進階思考**：DP 與圖論結合（如 DAG 最長路徑）是難題的核心考點。
