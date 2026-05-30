@@ -22,10 +22,8 @@
 ## 📝 題目索引 (Problem Index)
 
 <!-- L2_START -->
-| 題目名稱 | 程式連結 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
-| :--- | :--- | :---: | :---: | :--- | :---: |
-| **a010_prime_factor** | [C++](./a010_prime_factor.cpp) [Py](./a010_prime_factor.py) | [📝 Notion](請在此處貼上連結) | | | |
-| **tempCodeRunnerFile** | [Py](./tempCodeRunnerFile.py) | [📝 Notion](請在此處貼上連結) | | | |
+| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
+| :--- | :--- | :---: | :---: | :---: | :--- | :---: |
 <!-- L2_END -->
 
 <br>
