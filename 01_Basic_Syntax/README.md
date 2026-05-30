@@ -25,7 +25,7 @@
 <!-- L1_START -->
 | 子主題 | 進度 | 完成率 | 狀態 |
 | :--- | :---: | :---: | :--- |
-| [01_IO_Optimization](./01_IO_Optimization/) | 1/50 | 2% | 🔥 |
+| [01_IO_Optimization](./01_IO_Optimization/) | 1/5 | 20% | 🔥 |
 | [02_Conditionals](./02_Conditionals/) | 2/5 | 40% | 🔥 |
 | [03_Loops](./03_Loops/) | 2/5 | 40% | 🔥 |
 | [04_Functions](./04_Functions/) | 0/5 | 0% | 🔥 |
