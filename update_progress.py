@@ -1,82 +1,108 @@
 import os
+import json
 
-# --- 設定路徑 ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 設定路徑與錨點
+BASE_DIR = os.getcwd()
 README_PATH = os.path.join(BASE_DIR, "README.md")
+START_TAG = "<!-- PROGRESS_START -->"
+END_TAG = "<!-- PROGRESS_END -->"
 
-# --- 定義標籤 ---
-START_TAG = "``"
-END_TAG = "``"
+# 你的目錄配置與目標題數
+CATEGORIES = {
+    "01": {"name": "01_Basic_Syntax", "total": 15},
+    "02": {"name": "02_Data_Structures", "total": 25},
+    "03": {"name": "03_Basic_Algorithms", "total": 35},
+    "04": {"name": "04_Advanced_Topics", "total": 25}
+}
 
-def count_solved(folder_name):
-    folder_path = os.path.join(BASE_DIR, folder_name)
-    solved_ids = set()
-    if os.path.exists(folder_path):
-        for root, dirs, files in os.walk(folder_path):
-            # 忽略系統與設定資料夾
-            dirs[:] = [d for d in dirs if d not in ['.git', '.vscode', '.venv', '__pycache__']]
-            for file in files:
-                if file.endswith(('.cpp', '.py')):
-                    solved_ids.add(file.split('_')[0])
-    return len(solved_ids)
-
-def generate_bar(solved, target):
-    percent = int((solved / target) * 100) if target > 0 else 0
-    filled = percent // 10
+def generate_progress_bar(done, total):
+    percent = int((done / total) * 100) if total > 0 else 0
+    filled = int(percent / 10)
     bar = "█" * filled + "░" * (10 - filled)
     return f"`{bar} {percent}%`"
 
-def update():
-    # 準備新表格數據
-    CATEGORIES = {
-        "01_Basic_Syntax": {"name": "01 基礎語法", "topics": "I/O, 判斷式, 迴圈, 函式", "target": 15},
-        "02_Data_Structures": {"name": "02 資料結構", "topics": "Array, Vector, String, Struct", "target": 20},
-        "03_Basic_Algorithms": {"name": "03 基礎演算法", "topics": "排序, 二分搜, 貪心, 數論", "target": 35},
-        "04_Advanced_Topics": {"name": "04 進階主題", "topics": "遞迴, Stack/Queue, DFS, DP", "target": 25}
+def count_unique_problems():
+    counts = {}
+    for key, info in CATEGORIES.items():
+        root_folder = os.path.join(BASE_DIR, info["name"])
+        unique_problems = set()
+        
+        if os.path.exists(root_folder):
+            # os.walk 遞迴掃描所有子資料夾
+            for dirpath, dirnames, filenames in os.walk(root_folder):
+                for f in filenames:
+                    # 統計 .cpp 或 .py
+                    if f.endswith(('.cpp', '.py')):
+                        # 以檔名主體作為識別，確保同一題的不同副檔名只算一次
+                        # 使用 split('_')[0] 可以確保 a001_hello 與 a001_test 視為同一題
+                        problem_id = f.split('_')[0] 
+                        unique_problems.add(problem_id)
+        
+        counts[key] = len(unique_problems)
+    return counts
+
+def update_readme():
+    counts = count_unique_problems()
+    
+    # 動態組裝表格
+    table_rows = ["| 階段大分類 | 核心主題 | 已解題數 / 目標題數 | 學習進度條 | 目前狀態 |",
+                  "| :--- | :--- | :---: | :--- | :---: |"]
+    
+    total_done = 0
+    total_all = 0
+    
+    # 填入各分類資料
+    cat_info = {
+        "01": "I/O, if-else, for/while, function",
+        "02": "Array, Vector, String, Struct",
+        "03": "Sort, Binary Search, Greedy, Brute Force, Two Pointers, Math",
+        "04": "Recursion, Stack/Queue, DFS, BFS, DP, Graph & Tree"
     }
     
-    # 建立新表格的文字內容
-    lines = ["| 階段大分類 | 核心主題 | 已解題數 / 目標題數 | 學習進度條 | 目前狀態 |",
-             "| :--- | :--- | :---: | :--- | :---: |"]
-    total_s, total_t = 0, 0
-    for k, v in CATEGORIES.items():
-        s = count_solved(k)
-        total_s += s; total_t += v['target']
-        status = "🟢 已達標" if s >= v['target'] else ("🟢 進行中" if s > 0 else "⚪ 未開始")
-        lines.append(f"| {v['name']} | {v['topics']} | `{s} / {v['target']}` | {generate_bar(s, v['target'])} | {status} |")
-    lines.append(f"| **總計 (Total)** | **全題庫** | **{total_s} / {total_t}** | {generate_bar(total_s, total_t)} | **🔥 進行中** |")
-    
-    new_table = "\n" + "\n".join(lines) + "\n"
+    for key, info in CATEGORIES.items():
+        d = counts[key]
+        t = info["total"]
+        total_done += d
+        total_all += t
+        status = "🔥 進行中" if 0 < d < t else ("✅ 完成" if d >= t else "⚪ 未開始")
+        bar = generate_progress_bar(d, t)
+        table_rows.append(f"| {info['name']} | {cat_info[key]} | `{d} / {t}` | {bar} | {status} |")
 
-    # --- 關鍵替換邏輯 ---
+    total_bar = generate_progress_bar(total_done, total_all)
+    table_rows.append(f"| **總計 (Total)** | **全題庫** | **{total_done} / {total_all}** | {total_bar} | **🔥 進行中** |")
+    
+    new_table = "\n".join(table_rows)
+
+    # 讀取並更新 README
     with open(README_PATH, "r", encoding="utf-8") as f:
-        old_lines = f.readlines()
-    
-    final_lines = []
-    in_block = False 
+        lines = f.readlines()
+
+    new_content = []
+    in_tag = False
     found_start = False
-    
-    for line in old_lines:
+
+    for line in lines:
         if START_TAG in line:
-            final_lines.append(line)
-            final_lines.append(new_table) # 寫入新表格
-            in_block = True               # 開啟過濾模式
+            new_content.append(line)
+            new_content.append(new_table + "\n")
             found_start = True
-        elif END_TAG in line:
-            final_lines.append(line)      # 寫入結束標籤
-            in_block = False              # 關閉過濾模式，恢復正常寫入
-        elif not in_block:
-            # 只有當我們不在表格區塊內時，才保留原本 README 的內容
-            final_lines.append(line)
-            
+            in_tag = True
+            continue
+        if END_TAG in line:
+            new_content.append(line)
+            in_tag = False
+            continue
+        if not in_tag:
+            new_content.append(line)
+
     if not found_start:
-        print("❌ 錯誤：找不到 ，請先確認 README.md 內容。")
+        print("錯誤：找不到錨點，請確保 README.md 內有 <!-- PROGRESS_START --> 與 <!-- PROGRESS_END -->")
         return
 
-    # 寫回檔案
     with open(README_PATH, "w", encoding="utf-8") as f:
-        f.writelines(final_lines)
-    print("✅ 更新成功：已替換舊內容並寫入最新進度。")
+        f.writelines(new_content)
+    
+    print("成功：進度表格已自動統計並更新！")
 
 if __name__ == "__main__":
-    update()
+    update_readme()
