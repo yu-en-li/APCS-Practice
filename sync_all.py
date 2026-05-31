@@ -77,54 +77,51 @@ def update_l2_topic(path, sub_name):
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
-                head = [file_obj.readline() for _ in range(15)]
-                for line in head:
-                    # 這裡原本的 import re 已經刪除
+                # 只讀取前 10 行
+                head_lines = [file_obj.readline() for _ in range(10)]
+                head_content = "".join(head_lines) # 轉成字串供後續分析
 
-                    # 1. 抓取題目名稱
-                    title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", line)
-                    if title_match:
-                        prob_title = title_match.group(1).strip()
+                # 1. 抓取題目名稱
+                title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", head_content)
+                if title_match: prob_title = title_match.group(1).strip()
 
-                    # 2. 抓取時間複雜度
-                    comp_match = re.search(r"(?://|#)\s*APCS Complexity:\s*(.*)", line)
-                    if comp_match:
-                        val = comp_match.group(1).strip()
-                        
-                        # 🔄 終極 LaTeX 轉換魔法
-                        if "sqrt" in val:
-                            # 把 sqrt(N) 或 sqrt(N) 變成 \sqrt{N}
-                            val = re.sub(r"sqrt\((.*?)\)", r"\\sqrt{\1}", val)
-                            val = re.sub(r"sqrt(\w+)", r"\\sqrt{\1}", val) # 防呆：沒寫括號的 sqrtN
-                        
-                        if "log" in val:
-                            # 把 log(N) 變成 \log N 或是保持括號 \log(N)
-                            val = val.replace("log", "\\log ")
-                        
-                        # 確保最外層有 $ 符號包裹
-                        complexity = f"${val}$" if not val.startswith("$") else val
+                # 2. 抓取時間複雜度 (保留 LaTeX 轉換)
+                comp_match = re.search(r"(?://|#)\s*APCS Complexity:\s*(.*)", head_content)
+                if comp_match:
+                    val = comp_match.group(1).strip()
+                    if "sqrt" in val: val = re.sub(r"sqrt\((.*?)\)", r"\\sqrt{\1}", val)
+                    if "log" in val: val = val.replace("log", "\\log ")
+                    complexity = f"${val}$" if not val.startswith("$") else val
 
-                    # 3. 抓取核心觀念
-                    tag_match = re.search(r"(?://|#)\s*APCS Tag:\s*(.*)", line)
-                    if tag_match:
-                        raw_tag = tag_match.group(1).strip()
-                        tags = [
-                            f"`{t.strip()}`" for t in raw_tag.split(",") if t.strip()
-                        ]
-                        tag = " ".join(tags) if tags else "`未標記`"
+                # 3. 抓取核心觀念
+                tag_match = re.search(r"(?://|#)\s*APCS Tag:\s*(.*)", head_content)
+                if tag_match:
+                    raw_tag = tag_match.group(1).strip()
+                    tags = [f"`{t.strip()}`" for t in raw_tag.split(",") if t.strip()]
+                    tag = " ".join(tags) if tags else "`未標記`"
 
-                    # 4. 抓取難度
-                    diff_match = re.search(r"(?://|#)\s*APCS Difficulty:\s*(\d+)", line)
-                    if diff_match:
-                        star_count = int(diff_match.group(1).strip())
-                        star_count = max(1, min(5, star_count))  
-                        stars = ["★"] * star_count + ["☆"] * (5 - star_count)
-                        difficulty = " ".join(stars)
+                # 4. 抓取難度
+                diff_match = re.search(r"(?://|#)\s*APCS Difficulty:\s*(\d+)", head_content)
+                if diff_match:
+                    star_count = max(1, min(5, int(diff_match.group(1).strip())))
+                    difficulty = " ".join(["★"] * star_count + ["☆"] * (5 - star_count))
 
-                    # 5. 抓取 Notion 連結
-                    notion_match = re.search(r"(?://|#)\s*APCS Note:\s*(https?://[^\s]+)", line)
-                    if notion_match:
-                        notion_url = notion_match.group(1).strip()
+                # 5. 抓取 Notion 連結
+                notion_match = re.search(r"(?://|#)\s*APCS Note:\s*(https?://[^\s]+)", head_content)
+                if notion_match: notion_url = notion_match.group(1).strip()
+
+                # 6. 狀態檢查 (直接從頭 10 行檢測)
+                is_in_progress = re.search(r"#\s*APCS\s*Status:\s*In\s*Progress", head_content, re.IGNORECASE)
+
+                data[name] = {
+                    "links": data.get(name, {}).get("links", []),
+                    "title": prob_title,
+                    "complexity": complexity,
+                    "tag": tag,
+                    "difficulty": difficulty,
+                    "notion": notion_url,
+                    "is_in_progress": is_in_progress is not None
+                }
 
         except Exception as e:
             print(f"無法讀取 {f} 的標籤資料: {e}")
@@ -174,13 +171,27 @@ def update_l2_topic(path, sub_name):
         "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
     ]
 
+    # 在你的迴圈 for name, info in data.items(): 裡面替換原本的 status_icon 邏輯
+    
     for name, info in data.items():
+        # 讀取對應檔案內容以判斷狀態 (需確保你的 data 結構內有儲存完整內容或重新讀取)
+        # 為了效能，建議你在上面讀取檔案時，就將 content 存入 data[name]
+        
+        # 判斷邏輯順序：
+        if not info["links"]:
+            status_text = "⏳ 待挑戰"
+        elif "# apcs status: in progress" in info["full_content"].lower():
+            status_text = "🚧 進行中"
+        elif info["notion"] == "請在此處貼上連結":
+            status_text = "✍️ 補筆記中"
+        else:
+            status_text = "✅ 已過關"
+            
         link_str = " ".join(info["links"])
-        status_icon = "✅ 已過關" if len(info["links"]) > 0 else "⏳ 挑戰中"
-
+        
         table.append(
             f"| **{info['title']}** | {link_str} | {info['complexity']} | "
-            f"[📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_icon} |"
+            f"[📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_text} |"
         )
 
     table_content = "\n".join(table)
