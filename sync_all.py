@@ -4,38 +4,42 @@ import re  # 👈 1. 統一搬到最頂端，乾淨又安全！
 # --- 設定區：直觀定義結構與目標 ---
 CONFIG = {
     "01_Basic_Syntax": {
-        "total": 15,
+        "total":                    11,
         "subs": {
-            "01_IO_Optimization": 5,
-            "02_Conditionals": 5,
-            "03_Loops": 5,
-            "04_Functions": 5,
+            "01_IO_Optimization":   3,
+            "02_Conditionals":      2,
+            "03_Loops":             3,
+            "04_Functions":         3,
         },
     },
     "02_Data_Structures": {
-        "total": 25,
-        "subs": {"01_Array": 5, "02_Vector": 5, "03_String": 5, "04_Struct": 5},
+        "total":                    24,
+        "subs": {"01_Array":        6, 
+                 "02_Vector":       6, 
+                 "03_String":       8, 
+                 "04_Struct":       4
+        },
     },
     "03_Basic_Algorithms": {
-        "total": 35,
+        "total":                    36,
         "subs": {
-            "01_Sorting": 5,
-            "02_Binary_Search": 5,
-            "03_Greedy": 5,
-            "04_Brute_Force": 5,
-            "05_Two_Pointers": 5,
-            "06_Math_Theory": 5,
+            "01_Sorting":           5,
+            "02_Binary_Search":     6,
+            "03_Greedy":            8,
+            "04_Brute_Force":       5,
+            "05_Two_Pointers":      7,
+            "06_Math_Theory":       5,
         },
     },
     "04_Advanced_Topics": {
-        "total": 25,
+        "total":                    42,
         "subs": {
-            "01_Recursion": 4,
-            "02_Stack_Queue": 4,
-            "03_DFS": 4,
-            "04_BFS": 4,
-            "05_DP": 4,
-            "06_Graph_Tree": 5,
+            "01_Recursion":         6,
+            "02_Stack_Queue":       6,
+            "03_DFS":               7,
+            "04_BFS":               7,
+            "05_DP":                10,
+            "06_Graph_Tree":        6,
         },
     },
 }
