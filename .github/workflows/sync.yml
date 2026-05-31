@@ -27,16 +27,16 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # 1. 檢查是否有更動
+          # 檢查是否有更動
           if [ -n "$(git status --porcelain)" ]; then
-            # 2. 先把 sync_all.py 改好的 README 暫存起來（變成 staged）
+            # 1. ⚡ 關鍵：先把自動生成的所有變更直接 Commit 存起來（讓暫存區和工作區變乾淨）
             git add .
+            git commit -m "chore(sync): auto-update README index [skip ci]"
             
-            # 3. ⚡ 這時候再 pull --rebase 就百分之百不會被 Git 擋下來了！
+            # 2. ⚡ 這時候本地已經是一個乾淨的 Commit 了，直接拉取遠端並把我們的變更墊在最上面
             git pull --rebase origin main
             
-            # 4. 提交並推上雲端
-            git commit -m "chore(sync): auto-update README index [skip ci]"
+            # 3. 完美推上雲端
             git push origin main
           else
             echo "No changes detected, skipping commit."
