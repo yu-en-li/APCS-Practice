@@ -77,9 +77,8 @@ def update_l2_topic(path, sub_name):
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
-                # 只讀取前 10 行
-                head_lines = [file_obj.readline() for _ in range(10)]
-                head_content = "".join(head_lines) # 轉成字串供後續分析
+                lines = file_obj.readlines()
+                head_content = "".join(lines[:10])
 
                 # 1. 抓取題目名稱
                 title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", head_content)
@@ -130,6 +129,7 @@ def update_l2_topic(path, sub_name):
         link = f"[{display_name}](./{f})"
 
         # 🔒 安全防洗機制：如果這題是第一次出現，才初始化所有欄位
+        # 🔒 安全防洗機制：確保所有欄位都被初始化
         if name not in data:
             data[name] = {
                 "links": [],
@@ -138,6 +138,7 @@ def update_l2_topic(path, sub_name):
                 "tag": tag,
                 "difficulty": difficulty,
                 "notion": notion_url,
+                "full_content": "" # <--- 必須在這裡先給它一個初始空字串
             }
         else:
             # 如果這題之前別的檔案已經建過了，只有當新檔案有抓到有效資料時，才更新進去！
