@@ -182,7 +182,7 @@ def update_l2_topic(path, sub_name):
         # 判斷邏輯順序：
         for name, info in data.items():
         # 狀態判定邏輯：使用 head_content 作為判斷依據
-        header = info.get("head_content", "").lower()
+            header = info.get("head_content", "").lower()
         
         if not info["links"]:
             status_text = "⏳ 待挑戰"
