@@ -53,15 +53,7 @@ L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 def update_l2_topic(path, sub_name):
     readme_path = os.path.join(path, "README.md")
 
-    # 找出該目錄下所有的 C++ 和 Python 檔案
-    files = (
-        [
-            f for f in os.listdir(path) 
-            if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
-        ]
-        if os.path.exists(path)
-        else []
-    )
+    files = [f for f in os.listdir(path) if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f] if os.path.exists(path) else []
 
     data = {}
     for f in sorted(files):
@@ -69,23 +61,18 @@ def update_l2_topic(path, sub_name):
         ext = os.path.splitext(f)[1].lower()
         file_path = os.path.join(path, f)
 
-        prob_title = name  
-        complexity = "未標記"
-        tag = "`未標記`"
-        difficulty = "未標記"
-        notion_url = "請在此處貼上連結"  
+        # 預設值
+        prob_title, complexity, tag, difficulty, notion_url, head_content = name, "未標記", "`未標記`", "未標記", "請在此處貼上連結", ""
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
-                # 只讀取前 10 行
                 head_lines = [file_obj.readline() for _ in range(10)]
                 head_content = "".join(head_lines)
 
-                # 1. 抓取題目名稱
+                # 提取標籤
                 title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", head_content)
                 if title_match: prob_title = title_match.group(1).strip()
-
-                # 2. 抓取時間複雜度 (保留 LaTeX 轉換)
+                
                 comp_match = re.search(r"(?://|#)\s*APCS Complexity:\s*(.*)", head_content)
                 if comp_match:
                     val = comp_match.group(1).strip()
@@ -93,139 +80,48 @@ def update_l2_topic(path, sub_name):
                     if "log" in val: val = val.replace("log", "\\log ")
                     complexity = f"${val}$" if not val.startswith("$") else val
 
-                # 3. 抓取核心觀念
                 tag_match = re.search(r"(?://|#)\s*APCS Tag:\s*(.*)", head_content)
                 if tag_match:
                     raw_tag = tag_match.group(1).strip()
                     tags = [f"`{t.strip()}`" for t in raw_tag.split(",") if t.strip()]
                     tag = " ".join(tags) if tags else "`未標記`"
 
-                # 4. 抓取難度
                 diff_match = re.search(r"(?://|#)\s*APCS Difficulty:\s*(\d+)", head_content)
                 if diff_match:
                     star_count = max(1, min(5, int(diff_match.group(1).strip())))
                     difficulty = " ".join(["★"] * star_count + ["☆"] * (5 - star_count))
 
-                # 5. 抓取 Notion 連結
                 notion_match = re.search(r"(?://|#)\s*APCS Note:\s*(https?://[^\s]+)", head_content)
                 if notion_match: notion_url = notion_match.group(1).strip()
-
-                # 6. 狀態檢查 (直接從頭 10 行檢測)
-                is_in_progress = re.search(r"#\s*APCS\s*Status:\s*In\s*Progress", head_content, re.IGNORECASE)
-
-                data[name] = {
-                    "links": data.get(name, {}).get("links", []),
-                    "title": prob_title,
-                    "complexity": complexity,
-                    "tag": tag,
-                    "difficulty": difficulty,
-                    "notion": notion_url,
-                    "head_content": head_content # 專注於這 10 行
-                }
-
         except Exception as e:
             print(f"無法讀取 {f} 的標籤資料: {e}")
 
-        display_name = "C++" if ext == ".cpp" else "Py"
-        link = f"[{display_name}](./{f})"
-
-        # 🔒 安全防洗機制：如果這題是第一次出現，才初始化所有欄位
-        # 🔒 安全防洗機制：確保所有欄位都被初始化
+        # 資料儲存
         if name not in data:
-            data[name] = {
-                "links": [],
-                "title": prob_title,
-                "complexity": complexity,
-                "tag": tag,
-                "difficulty": difficulty,
-                "notion": notion_url,
-                "full_content": "" # <--- 必須在這裡先給它一個初始空字串
-            }
-        else:
-            # 如果這題之前別的檔案已經建過了，只有當新檔案有抓到有效資料時，才更新進去！
-            if prob_title != name and prob_title != "未標記":
-                data[name]["title"] = prob_title
-            if complexity != "未標記":
-                data[name]["complexity"] = complexity
-            if tag != "`未標記`":
-                data[name]["tag"] = tag
-            if difficulty != "未標記":
-                data[name]["difficulty"] = difficulty
-            if notion_url != "請在此處貼上連結":
-                data[name]["notion"] = notion_url
+            data[name] = {"links": [], "title": prob_title, "complexity": complexity, "tag": tag, "difficulty": difficulty, "notion": notion_url, "head_content": head_content}
+        
+        data[name]["links"].append(f"[{'C++' if ext == '.cpp' else 'Py'}](./{f})")
 
-        # 最後才把連結 append 進去
-        data[name]["links"].append(link)
-
-        if prob_title != name:
-            data[name]["title"] = prob_title
-        if complexity != "未標記":
-            data[name]["complexity"] = complexity
-        if tag != "`未標記`":
-            data[name]["tag"] = tag
-        if difficulty != "未標記":
-            data[name]["difficulty"] = difficulty
-        if notion_url != "請在此處貼上連結":
-            data[name]["notion"] = notion_url
-
-    table = [
-        "| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |",
-        "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |",
-    ]
-
-    # 在你的迴圈 for name, info in data.items(): 裡面替換原本的 status_icon 邏輯
-    
+    # 生成表格
+    table = ["| 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |", "| :--- | :--- | :---: | :---: | :---: | :--- | :---: |"]
     for name, info in data.items():
-        # 讀取對應檔案內容以判斷狀態 (需確保你的 data 結構內有儲存完整內容或重新讀取)
-        # 為了效能，建議你在上面讀取檔案時，就將 content 存入 data[name]
-        
-        # 判斷邏輯順序：
-        for name, info in data.items():
-        # 狀態判定邏輯：使用 head_content 作為判斷依據
-            header = info.get("head_content", "").lower()
-        
-        if not info["links"]:
-            status_text = "⏳ 待挑戰"
-        elif "# apcs status: in progress" in header:
-            status_text = "🚧 進行中"
-        elif info.get("notion") == "請在此處貼上連結":
-            status_text = "✍️ 補筆記中"
-        else:
-            status_text = "✅ 已過關"
+        header = info.get("head_content", "").lower()
+        if not info["links"]: status_text = "⏳ 待挑戰"
+        elif "# apcs status: in progress" in header: status_text = "🚧 進行中"
+        elif info["notion"] == "請在此處貼上連結": status_text = "✍️ 補筆記中"
+        else: status_text = "✅ 已過關"
             
-        link_str = " ".join(info["links"])
-        
-        table.append(
-            f"| **{info['title']}** | {link_str} | {info['complexity']} | "
-            f"[📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_text} |"
-        )
+        table.append(f"| **{info['title']}** | {' '.join(info['links'])} | {info['complexity']} | [📝 Notion]({info['notion']}) | {info['difficulty']} | {info['tag']} | {status_text} |")
 
-    table_content = "\n".join(table)
-
-    if not os.path.exists(readme_path):
-        return
-
-    with open(readme_path, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    # 👉 確保 L2 標籤存在且不為空
-    if L2_START and L2_END and L2_START in content and L2_END in content:
-        pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
-        # 1. 先用 re.search 找出原本 README 裡面舊的 L2 區塊文字是什麼
-        old_block_match = re.search(pattern, content, flags=re.DOTALL)
-
-        if old_block_match:
-            old_block = old_block_match.group(0)
-            replacement = f"{L2_START}\n{table_content}\n{L2_END}"
-
-            # 2. ⚡ 關鍵：改用純文字內建的 .replace()，避開正則 \s 衝突！
-            new_content = content.replace(old_block, replacement)
-
-            if new_content != content:
-                with open(readme_path, "w", encoding="utf-8") as f:
-                    f.write(new_content)
-    else:
-        print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過。")
+    # 寫回 README
+    if os.path.exists(readme_path):
+        with open(readme_path, "r", encoding="utf-8") as f: content = f.read()
+        if L2_START and L2_END and L2_START in content and L2_END in content:
+            pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
+            old_block_match = re.search(pattern, content, flags=re.DOTALL)
+            if old_block_match:
+                new_content = content.replace(old_block_match.group(0), f"{L2_START}\n{'\n'.join(table)}\n{L2_END}")
+                with open(readme_path, "w", encoding="utf-8") as f: f.write(new_content)
 
 
 def update_l1_chapter(path, cat_name):
