@@ -12,12 +12,12 @@ jobs:
       contents: write # 給予自動同步腳本寫入權限
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # 💡 升級到 v4，避免舊版 node 警告
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # 💡 升級到 v5，速度更快且相容新版 Python
         with:
-          python-version: '3.x'
+          python-version: '3.x' 
 
       - name: Run sync script
         run: python sync_all.py
@@ -26,12 +26,16 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # 💡 關鍵安全防護：在 commit 之前先拉取最新變更，徹底預防衝突
+          git pull --rebase origin main
+          
           # 檢查是否有更動，有的話才提交
           if [ -n "$(git status --porcelain)" ]; then
             # [skip ci] 可防止自動更新後再次觸發 Actions 導致無限迴圈
             git add .
             git commit -m "chore(sync): auto-update README index [skip ci]"
-            git push
+            git push origin main
           else
             echo "No changes detected, skipping commit."
           fi
