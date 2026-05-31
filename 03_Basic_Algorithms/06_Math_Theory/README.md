@@ -29,7 +29,7 @@
 | **a034. 二進位制轉換** | [C++](./a034_Binary_Conversion_String.cpp) [Py](./a034_Binary_Conversion_String.py) | $O(\log  N)$ | [📝 Notion](https://www.notion.so/a034-36a43be958cd80a49057f8b8925ed00d?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ★ ☆ ☆ ☆ | `基礎語法` `數學與數論` | ✅ 已過關 |
 | **a059. 完全平方和** | [C++](./a059_Perfect_Squares_Sum.cpp) [Py](./a059_Perfect_Squares_Sum.py) | $O(\sqrt{N})$ | [📝 Notion](https://www.notion.so/ZJ-A059-36a43be958cd800ca7f7e72ae7600618?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ☆ ☆ ☆ ☆ | `數學與數論` `迴圈` | ✅ 已過關 |
 | **a248. 除法練習** | [Py](./a248_division_pricision.py) | $O(N)$ | [📝 Notion](https://www.notion.so/a248-36a43be958cd80caa5c6cd956b53148a?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ★ ☆ ☆ ☆ | `Math_Theory` `IO_Optimization` | ✅ 已過關 |
-| **a453_QuadraticEquationRationalRoot** | [Py](./a453_QuadraticEquationRationalRoot.py) | 未標記 | [📝 Notion](請在此處貼上連結) | 未標記 | `未標記` | ✅ 已過關 |
+| **a453. TOI2010 第一題：一元二次方程式** | [Py](./a453_QuadraticEquationRationalRoot.py) | $O(M)$ | [📝 Notion](請在此處貼上連結) | ★ ☆ ☆ ☆ ☆ | `Math_Theory` `Conditionals` | ✅ 已過關 |
 <!-- L2_END -->
 
 <br>
