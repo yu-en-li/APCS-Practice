@@ -77,8 +77,9 @@ def update_l2_topic(path, sub_name):
 
         try:
             with open(file_path, "r", encoding="utf-8") as file_obj:
-                lines = file_obj.readlines()
-                head_content = "".join(lines[:10])
+                # 只讀取前 10 行
+                head_lines = [file_obj.readline() for _ in range(10)]
+                head_content = "".join(head_lines)
 
                 # 1. 抓取題目名稱
                 title_match = re.search(r"(?://|#)\s*APCS Title:\s*(.*)", head_content)
@@ -119,7 +120,7 @@ def update_l2_topic(path, sub_name):
                     "tag": tag,
                     "difficulty": difficulty,
                     "notion": notion_url,
-                    "is_in_progress": is_in_progress is not None
+                    "head_content": head_content # 專注於這 10 行
                 }
 
         except Exception as e:
@@ -179,11 +180,15 @@ def update_l2_topic(path, sub_name):
         # 為了效能，建議你在上面讀取檔案時，就將 content 存入 data[name]
         
         # 判斷邏輯順序：
+        for name, info in data.items():
+        # 狀態判定邏輯：使用 head_content 作為判斷依據
+        header = info.get("head_content", "").lower()
+        
         if not info["links"]:
             status_text = "⏳ 待挑戰"
-        elif "# apcs status: in progress" in info["full_content"].lower():
+        elif "# apcs status: in progress" in header:
             status_text = "🚧 進行中"
-        elif info["notion"] == "請在此處貼上連結":
+        elif info.get("notion") == "請在此處貼上連結":
             status_text = "✍️ 補筆記中"
         else:
             status_text = "✅ 已過關"
