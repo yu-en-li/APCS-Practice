@@ -40,7 +40,7 @@
 | :--- | :---: | :---: |
 | [01_Basic_Syntax](./01_Basic_Syntax/) | 5/15 | 33% |
 | [02_Data_Structures](./02_Data_Structures/) | 0/25 | 0% |
-| [03_Basic_Algorithms](./03_Basic_Algorithms/) | 3/35 | 8% |
+| [03_Basic_Algorithms](./03_Basic_Algorithms/) | 2/35 | 5% |
 | [04_Advanced_Topics](./04_Advanced_Topics/) | 0/25 | 0% |
 <!-- ROOT_END -->
 

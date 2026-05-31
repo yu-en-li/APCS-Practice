@@ -8,6 +8,7 @@
         "/Zi",
         "/EHsc",
         "/nologo",
+        "/utf-8",
         "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
         "${file}"
       ],
@@ -17,6 +18,11 @@
       "problemMatcher": [
         "$msCompile"
       ],
+      "presentation": {
+        "reveal": "silent",       // 👈 關鍵：如果編譯沒錯誤，就不會主動彈出這個視窗排擠你
+        "clear": true,            // 👈 每次編譯自動清空舊的建置訊息
+        "close": true             // 👈 如果編譯成功，自動把這個工作視窗關閉
+      },
       "group": {
         "kind": "build",
         "isDefault": true

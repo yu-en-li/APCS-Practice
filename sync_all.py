@@ -41,9 +41,9 @@ CONFIG = {
 }
 
 # --- 標籤設定 ---
-ROOT_START, ROOT_END = "", ""
-L1_START, L1_END = "", ""
-L2_START, L2_END = "", ""
+ROOT_START, ROOT_END = "<!-- ROOT_START -->", "<!-- ROOT_END -->"
+L1_START, L1_END = "<!-- L1_START -->", "<!-- L1_END -->"
+L2_START, L2_END = "<!-- L2_START -->", "<!-- L2_END -->"
 
 
 def update_l2_topic(path, sub_name):
