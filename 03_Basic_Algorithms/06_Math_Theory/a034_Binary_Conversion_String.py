@@ -1,7 +1,7 @@
 # APCS Title: a034. 二進位制轉換
 # APCS Complexity: O(log N)
 # APCS Tag: 基礎語法, 數學與數論
-# APCS Difficulty: 1
+# APCS Difficulty: 2
 # APCS Note: 
 
 import sys
