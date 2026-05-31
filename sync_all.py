@@ -86,6 +86,18 @@ def update_l2_topic(path, sub_name):
                     comp_match = re.search(r"(?://|#)\s*APCS Complexity:\s*(.*)", line)
                     if comp_match:
                         val = comp_match.group(1).strip()
+                        
+                        # 🔄 終極 LaTeX 轉換魔法
+                        if "sqrt" in val:
+                            # 把 sqrt(N) 或 sqrt(N) 變成 \sqrt{N}
+                            val = re.sub(r"sqrt\((.*?)\)", r"\\sqrt{\1}", val)
+                            val = re.sub(r"sqrt(\w+)", r"\\sqrt{\1}", val) # 防呆：沒寫括號的 sqrtN
+                        
+                        if "log" in val:
+                            # 把 log(N) 變成 \log N 或是保持括號 \log(N)
+                            val = val.replace("log", "\\log ")
+                        
+                        # 確保最外層有 $ 符號包裹
                         complexity = f"${val}$" if not val.startswith("$") else val
 
                     # 3. 抓取核心觀念
