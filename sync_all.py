@@ -186,7 +186,7 @@ def update_l2_topic(path, sub_name):
 
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
-        
+
     # 👉 確保 L2 標籤存在且不為空
     if L2_START and L2_END and L2_START in content and L2_END in content:
         pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
@@ -214,14 +214,18 @@ def update_l1_chapter(path, cat_name):
     table = ["| 子主題 | 進度 | 完成率 | 狀態 |", "| :--- | :---: | :---: | :--- |"]
     for sub, target in CONFIG[cat_name]["subs"].items():
         sub_path = os.path.join(path, sub)
-        count = (
-            len([
-                f for f in os.listdir(sub_path) 
+        
+        # 🔒 題目去重機制：使用 set 抓取不含副檔名的題號/檔名
+        if os.path.exists(sub_path):
+            unique_problems = {
+                os.path.splitext(f)[0] 
+                for f in os.listdir(sub_path) 
                 if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
-            ])
-            if os.path.exists(sub_path)
-            else 0
-        )
+            }
+            count = len(unique_problems)
+        else:
+            count = 0
+            
         pct = int((count / target) * 100) if target > 0 else 0
         table.append(
             f"| [{sub}](./{sub}/) | {count}/{target} | {pct}% | {'✅' if count >= target else '🔥'} |"
@@ -249,16 +253,19 @@ def update_l0_root():
         
     table = ["| 階段大分類 | 完成度 | 完成率 |", "| :--- | :---: | :---: |"]
     for cat, info in CONFIG.items():
-        count = sum(
-            len(
-                [
-                    f for f in os.listdir(os.path.join(cat, sub))
+        
+        # 🔒 根目錄大分類同樣導入去重機制
+        count = 0
+        for sub in info["subs"]:
+            sub_path = os.path.join(cat, sub)
+            if os.path.exists(sub_path):
+                unique_problems = {
+                    os.path.splitext(f)[0]
+                    for f in os.listdir(sub_path)
                     if f.endswith((".cpp", ".py")) and "tempCodeRunner" not in f
-                ]
-            )
-            for sub in info["subs"]
-            if os.path.exists(os.path.join(cat, sub))
-        )
+                }
+                count += len(unique_problems)
+                
         pct = int((count / info["total"]) * 100) if info["total"] > 0 else 0
         table.append(f"| [{cat}](./{cat}/) | {count}/{info['total']} | {pct}% |")
 
