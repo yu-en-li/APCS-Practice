@@ -186,16 +186,23 @@ def update_l2_topic(path, sub_name):
 
     with open(readme_path, "r", encoding="utf-8") as f:
         content = f.read()
-
+        
     # 👉 確保 L2 標籤存在且不為空
     if L2_START and L2_END and L2_START in content and L2_END in content:
         pattern = f"{re.escape(L2_START)}.*?{re.escape(L2_END)}"
-        replacement = f"{L2_START}\n{table_content}\n{L2_END}"
-        new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-        
-        if new_content != content:
-            with open(readme_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
+        # 1. 先用 re.search 找出原本 README 裡面舊的 L2 區塊文字是什麼
+        old_block_match = re.search(pattern, content, flags=re.DOTALL)
+
+        if old_block_match:
+            old_block = old_block_match.group(0)
+            replacement = f"{L2_START}\n{table_content}\n{L2_END}"
+
+            # 2. ⚡ 關鍵：改用純文字內建的 .replace()，避開正則 \s 衝突！
+            new_content = content.replace(old_block, replacement)
+
+            if new_content != content:
+                with open(readme_path, "w", encoding="utf-8") as f:
+                    f.write(new_content)
     else:
         print(f"⚠️ 警告：{readme_path} 找不到完整的 L2 標籤，已自動跳過。")
 
