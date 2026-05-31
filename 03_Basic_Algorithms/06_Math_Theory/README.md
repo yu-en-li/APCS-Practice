@@ -26,7 +26,7 @@
 | 題目名稱 | 程式連結 | 時間複雜度 | 詳細筆記 | 難度 | 核心觀念 | 狀態 |
 | :--- | :--- | :---: | :---: | :---: | :--- | :---: |
 | **a010. 因數分解** | [C++](./a010_prime_factor.cpp) [Py](./a010_prime_factor.py) | $O(\sqrt{N})$ | [📝 Notion](https://www.notion.so/a010-36a43be958cd80d7a665d58550e2e017?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ★ ☆ ☆ ☆ | `數學與數論` `重複迴圈` `質因數分解` | ✅ 已過關 |
-| **a034. 二進位制轉換** | [C++](./a034_Binary_Conversion_String.cpp) [Py](./a034_Binary_Conversion_String.py) | $O(log N)$ | [📝 Notion](https://www.notion.so/a034-36a43be958cd80a49057f8b8925ed00d?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ☆ ☆ ☆ ☆ | `基礎語法` `數學與數論` | ✅ 已過關 |
+| **a034. 二進位制轉換** | [C++](./a034_Binary_Conversion_String.cpp) [Py](./a034_Binary_Conversion_String.py) | $O(\log  N)$ | [📝 Notion](https://www.notion.so/a034-36a43be958cd80a49057f8b8925ed00d?v=36a43be958cd8075b3ac000c2c628f5d&source=copy_link) | ★ ★ ☆ ☆ ☆ | `基礎語法` `數學與數論` | ✅ 已過關 |
 <!-- L2_END -->
 
 <br>
