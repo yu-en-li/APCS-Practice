@@ -128,6 +128,7 @@ def update_l2_topic(path, sub_name):
         display_name = "C++" if ext == ".cpp" else "Py"
         link = f"[{display_name}](./{f})"
 
+        # 🔒 安全防洗機制：如果這題是第一次出現，才初始化所有欄位
         if name not in data:
             data[name] = {
                 "links": [],
@@ -137,7 +138,20 @@ def update_l2_topic(path, sub_name):
                 "difficulty": difficulty,
                 "notion": notion_url,
             }
+        else:
+            # 如果這題之前別的檔案已經建過了，只有當新檔案有抓到有效資料時，才更新進去！
+            if prob_title != name and prob_title != "未標記":
+                data[name]["title"] = prob_title
+            if complexity != "未標記":
+                data[name]["complexity"] = complexity
+            if tag != "`未標記`":
+                data[name]["tag"] = tag
+            if difficulty != "未標記":
+                data[name]["difficulty"] = difficulty
+            if notion_url != "請在此處貼上連結":
+                data[name]["notion"] = notion_url
 
+        # 最後才把連結 append 進去
         data[name]["links"].append(link)
 
         if prob_title != name:
