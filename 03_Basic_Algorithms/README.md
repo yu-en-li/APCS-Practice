@@ -44,10 +44,10 @@
 | 子主題 | 進度 | 完成率 | 狀態 |
 | :--- | :---: | :---: | :--- |
 | [01_Sorting](./01_Sorting/) | 0/5 | 0% | 🔥 |
-| [02_Binary_Search](./02_Binary_Search/) | 0/5 | 0% | 🔥 |
-| [03_Greedy](./03_Greedy/) | 0/5 | 0% | 🔥 |
+| [02_Binary_Search](./02_Binary_Search/) | 0/6 | 0% | 🔥 |
+| [03_Greedy](./03_Greedy/) | 0/8 | 0% | 🔥 |
 | [04_Brute_Force](./04_Brute_Force/) | 0/5 | 0% | 🔥 |
-| [05_Two_Pointers](./05_Two_Pointers/) | 0/5 | 0% | 🔥 |
+| [05_Two_Pointers](./05_Two_Pointers/) | 0/7 | 0% | 🔥 |
 | [06_Math_Theory](./06_Math_Theory/) | 2/5 | 40% | 🔥 |
 <!-- L1_END -->
 <br>
